@@ -1,0 +1,12 @@
+.app_main {
+    display: flex;
+    flex-direction: column;
+}
+
+.current {
+    width: 50rem;
+}
+
+h2 {
+    text-align: center;
+}
