@@ -8,71 +8,69 @@ import "../app.css";
 Chart.register(CategoryScale);
 
 const Voltage = () => {
-  const labels = [
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20",
-    "21",
-    "22",
-    "23",
-    "24",
-    "25",
-    "26",
-    "27",
-    "28",
-    "29",
-    "30",
-    "31",
-    "32",
-    "33",
-    "34",
-    "35",
-    "36",
-    "37",
-    "38",
-    "39",
-    "40",
-    "41",
-    "42",
-    "43",
-    "44",
-    "45",
-    "46",
-    "47",
-    "48",
-    "49",
-    "50",
-    "51",
-    "52",
-    "53",
-    "54",
-    "55",
-    "56",
-    "57",
-    "58",
-    "59",
-  ];
-
   const [data, setData] = useState({
-    labels,
+    labels: [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46",
+      "47",
+      "48",
+      "49",
+      "50",
+      "51",
+      "52",
+      "53",
+      "54",
+      "55",
+      "56",
+      "57",
+      "58",
+      "59",
+    ],
     datasets: [
       {
         label: "Hourly Voltage Usage",
@@ -106,21 +104,29 @@ const Voltage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = "https://jsonplaceholder.typicode.com/todos";
+      const url = "https://smart-meter-back.onrender.com/getData";
       const dataset = [];
+      const labels = [];
+      const d2 = [];
+      const time = [];
       await fetch(url)
         .then((data) => {
-          console.log("api data: ", data);
+          console.log("api data 1: ", data);
           const res = data.json();
           return res;
         })
         .then((res) => {
           console.log("api data: ", res);
           for (const val of res) {
-            dataset.push(val.id);
+            dataset.push(val.Voltage);
+            labels.push(val.createdAt);
+            let t = new Date().getTime();
+            time.push(t - val.createdAt);
           }
+          console.log(dataset);
+          console.log("time: ", time);
           setData({
-            labels,
+            labels: labels,
             datasets: [
               {
                 label: "Hourly Voltage Usage",
@@ -151,8 +157,9 @@ const Voltage = () => {
           console.log(e);
         });
     };
-    fetchData();
+    setInterval(fetchData, 1000);
   }, []);
+
   return (
     <div>
       <h2>Voltage</h2>
