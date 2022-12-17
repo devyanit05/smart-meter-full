@@ -107,8 +107,6 @@ const Voltage = () => {
       const url = "https://smart-meter-back.onrender.com/getData";
       const dataset = [];
       const labels = [];
-      const d2 = [];
-      const time = [];
       await fetch(url)
         .then((data) => {
           console.log("api data 1: ", data);
@@ -119,12 +117,9 @@ const Voltage = () => {
           console.log("api data: ", res);
           for (const val of res) {
             dataset.push(val.Voltage);
-            labels.push(val.createdAt);
-            let t = new Date().getTime();
-            time.push(t - val.createdAt);
+            labels.push(val.time);
           }
           console.log(dataset);
-          console.log("time: ", time);
           setData({
             labels: labels,
             datasets: [
